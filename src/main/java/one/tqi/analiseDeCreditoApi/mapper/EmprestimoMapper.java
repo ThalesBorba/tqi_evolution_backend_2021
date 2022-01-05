@@ -1,6 +1,6 @@
 package one.tqi.analiseDeCreditoApi.mapper;
 
-import one.tqi.analiseDeCreditoApi.dto.request.EmprestimoDTO;
+import one.tqi.analiseDeCreditoApi.dto.request.ReturnEmprestimoDetailsDTO;
 import one.tqi.analiseDeCreditoApi.entities.Emprestimo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +13,7 @@ public interface EmprestimoMapper {
 
         @Mapping(target = "dataDaPrimeiraParcela", source = "dataDaPrimeiraParcela",
         dateFormat = "dd-MM-yyyy")
-        Emprestimo toModel(EmprestimoDTO emprestimoDTO);
+        Emprestimo toModel(ReturnEmprestimoDetailsDTO returnEmprestimoDetailsDTO);
 
-        EmprestimoDTO toDTO(Emprestimo emprestimo);
+        ReturnEmprestimoDetailsDTO toDTO(Emprestimo emprestimo);
 }

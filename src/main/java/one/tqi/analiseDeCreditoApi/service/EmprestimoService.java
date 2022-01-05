@@ -1,6 +1,6 @@
 package one.tqi.analiseDeCreditoApi.service;
 
-import one.tqi.analiseDeCreditoApi.dto.request.EmprestimoDTO;
+import one.tqi.analiseDeCreditoApi.dto.request.ReturnEmprestimoDetailsDTO;
 import one.tqi.analiseDeCreditoApi.dto.response.MessageResponseDTO;
 import one.tqi.analiseDeCreditoApi.entities.Emprestimo;
 import one.tqi.analiseDeCreditoApi.exceptions.EmprestimoNotFoundException;
@@ -26,7 +26,7 @@ public class EmprestimoService {
         this.emprestimoRepository = emprestimoRepository;
     }
 
-    public MessageResponseDTO createEmprestimo(EmprestimoDTO emprestimoDTO) {
+  /*  public MessageResponseDTO createEmprestimo(EmprestimoDTO emprestimoDTO) {
         Emprestimo savedEmprestimo = getEmprestimo(emprestimoDTO);
         return createMessageResponse(savedEmprestimo.getId(), "Created ");
     }
@@ -42,7 +42,7 @@ public class EmprestimoService {
         return EmprestimosList(allEmprestimos);
     }
 
-    public EmprestimoDTO findById(Long id) throws EmprestimoNotFoundException {
+    public ReturnEmprestimoDetailsDTO findById(Long id) throws EmprestimoNotFoundException {
         Emprestimo emprestimo = verifyIfExists(id);
         return emprestimoMapper.toDTO(emprestimo);
     }
@@ -53,9 +53,9 @@ public class EmprestimoService {
     }
 
     private Emprestimo getEmprestimo(EmprestimoDTO emprestimoDTO) {
-        Emprestimo EmprestimoToSave = emprestimoMapper.toModel(emprestimoDTO);
-        return emprestimoRepository.save(EmprestimoToSave);
-    }
+        Emprestimo emprestimoToSave = emprestimoMapper.toModel(emprestimoDTO);
+        return emprestimoRepository.save(emprestimoToSave);
+    }*/
 
     private MessageResponseDTO createMessageResponse(Long id, String s) {
         return MessageResponseDTO.builder()
@@ -68,7 +68,7 @@ public class EmprestimoService {
                 .orElseThrow(() -> new EmprestimoNotFoundException(id));
     }
 
-    private List<EmprestimoDTO> EmprestimosList(List<Emprestimo> allEmprestimos) {
+    private List<ReturnEmprestimoDetailsDTO> EmprestimosList(List<Emprestimo> allEmprestimos) {
         return allEmprestimos.stream()
                 .map(emprestimoMapper::toDTO)
                 .collect(Collectors.toList());

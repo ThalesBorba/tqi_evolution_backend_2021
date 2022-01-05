@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
+import java.time.LocalDate;
 
 
 @Entity
@@ -20,11 +20,15 @@ public class Emprestimo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente")
+    private Cliente cliente;
+
     @Column(nullable = false)
     private double valorDoEmprestimo;
 
     @Column
-    private String dataDaPrimeiraParcela;
+    private LocalDate dataDaPrimeiraParcela;
 
     @Column(nullable = false)
     private int quantidadeDeParcelas;

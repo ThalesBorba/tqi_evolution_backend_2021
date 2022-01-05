@@ -26,6 +26,7 @@ public class EmprestimoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MessageResponseDTO createEmprestimo(@RequestBody @Valid EmprestimoDTO emprestimoDTO) {
+        //se quantidade de parcelas maior que 60, quebra
         return emprestimoService.createEmprestimo(emprestimoDTO);
     }
 

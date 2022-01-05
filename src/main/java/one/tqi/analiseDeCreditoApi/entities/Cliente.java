@@ -46,8 +46,8 @@ public class Cliente {
     private String senha;
 
     @Valid
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<Emprestimo> emprestimos;
 
 }
+
