@@ -1,4 +1,4 @@
-package tqi.analiseDeCreditoApi.enums;
+package tqi.analiseDeCreditoApi.security;
 
 public enum UserPermissions {
     CLIENTE_READ("cliente:read"),
@@ -6,7 +6,7 @@ public enum UserPermissions {
     CLIENTE_MODIFY("cliente:modify"),
     EMPRESTIMO_READ("emprestimo:read"),
     EMPRESTIMO_CREATE("emprestimo:create"),
-    EMPRESTIMO_MODIFY("emprestimo:write");
+    EMPRESTIMO_MODIFY("emprestimo:modify");
 
     private final String permission;
 

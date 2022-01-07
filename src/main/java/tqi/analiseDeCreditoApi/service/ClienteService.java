@@ -21,7 +21,7 @@ public class ClienteService {
 
     public MessageResponseDTO createcliente(Cliente cliente) {
         Cliente savedcliente = getCliente(cliente);
-        return createMessageResponse(savedcliente.getId(), "Created ");
+        return createMessageResponse(savedcliente.getId(), "Criado ");
     }
 
     public MessageResponseDTO updateById(Long id, Cliente cliente) throws ClienteNotFoundException {

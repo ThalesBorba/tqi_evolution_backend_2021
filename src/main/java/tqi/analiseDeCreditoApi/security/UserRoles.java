@@ -1,13 +1,12 @@
 package tqi.analiseDeCreditoApi.security;
 
 import com.google.common.collect.Sets;
-import tqi.analiseDeCreditoApi.enums.UserPermissions;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static tqi.analiseDeCreditoApi.enums.UserPermissions.*;
+import static tqi.analiseDeCreditoApi.security.UserPermissions.*;
 
 
 public enum UserRoles {

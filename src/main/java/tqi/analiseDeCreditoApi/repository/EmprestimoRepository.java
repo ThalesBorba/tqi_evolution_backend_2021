@@ -7,6 +7,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface EmprestimoRepository extends JpaRepository<Emprestimo, Long> {
-    List<Emprestimo> findByClientCpf(@Param("cpf") String cpf);
 
 }
