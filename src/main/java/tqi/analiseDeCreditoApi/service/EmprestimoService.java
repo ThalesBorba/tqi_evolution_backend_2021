@@ -1,17 +1,17 @@
 package tqi.analiseDeCreditoApi.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import tqi.analiseDeCreditoApi.dto.request.CreateEmprestimoDTO;
-import tqi.analiseDeCreditoApi.dto.response.ReturnEmprestimoDetailsDTO;
 import tqi.analiseDeCreditoApi.dto.response.MessageResponseDTO;
+import tqi.analiseDeCreditoApi.dto.response.ReturnEmprestimoDetailsDTO;
+import tqi.analiseDeCreditoApi.dto.response.ReturnEmprestimoListDTO;
 import tqi.analiseDeCreditoApi.entities.Emprestimo;
 import tqi.analiseDeCreditoApi.exceptions.EmprestimoNotFoundException;
 import tqi.analiseDeCreditoApi.mapper.EmprestimoMapper;
 import tqi.analiseDeCreditoApi.repository.EmprestimoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EmprestimoService {
@@ -30,20 +30,21 @@ public class EmprestimoService {
         return createMessageResponse(savedEmprestimo.getId(), "Created ");
     }
 
+    public ReturnEmprestimoDetailsDTO findById(Long id) throws EmprestimoNotFoundException {
+        Emprestimo emprestimo = verifyIfExists(id);
+        return emprestimoMapper.toDTO(emprestimo);
+    }
+
+    public List<Emprestimo> listAll() {
+        List<Emprestimo> allEmprestimos;
+        allEmprestimos = emprestimoRepository.findAll();
+        return allEmprestimos;
+    }
+
     public MessageResponseDTO updateById(Long id, CreateEmprestimoDTO createEmprestimoDTO) throws EmprestimoNotFoundException {
         verifyIfExists(id);
         Emprestimo updatedEmprestimo = getEmprestimo(createEmprestimoDTO);
         return createMessageResponse(updatedEmprestimo.getId(), "Updated ");
-    }
-
-    public List<ReturnEmprestimoDetailsDTO> listAll() {
-        List<Emprestimo> allEmprestimos = emprestimoRepository.findAll();
-        return EmprestimosList(allEmprestimos);
-    }
-
-    public ReturnEmprestimoDetailsDTO findById(Long id) throws EmprestimoNotFoundException {
-        Emprestimo emprestimo = verifyIfExists(id);
-        return emprestimoMapper.toDTO(emprestimo);
     }
 
     public void delete(Long id) throws EmprestimoNotFoundException {
@@ -67,9 +68,4 @@ public class EmprestimoService {
                 .orElseThrow(() -> new EmprestimoNotFoundException(id));
     }
 
-    private List<ReturnEmprestimoDetailsDTO> EmprestimosList(List<Emprestimo> allEmprestimos) {
-        return allEmprestimos.stream()
-                .map(emprestimoMapper::toDTO)
-                .collect(Collectors.toList());
-    }
 }

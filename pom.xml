@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>one.digitalinnovation</groupId>
-	<artifactId>studentapi</artifactId>
+	<artifactId>analiseDeCreditoApi</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>studentapi</name>
-	<description>Student API developed for digital innovation one course</description>
+	<name>analiseDeCreditoApi</name>
+	<description>API de análise de crédito prosposta como desafio pela TQI</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -55,6 +55,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>1.16.14</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
