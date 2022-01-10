@@ -5,12 +5,15 @@ import org.springframework.stereotype.Service;
 import tqi.analiseDeCreditoApi.dto.request.CreateEmprestimoDTO;
 import tqi.analiseDeCreditoApi.dto.response.MessageResponseDTO;
 import tqi.analiseDeCreditoApi.dto.response.ReturnEmprestimoDetailsDTO;
-import tqi.analiseDeCreditoApi.dto.response.ReturnEmprestimoListDTO;
 import tqi.analiseDeCreditoApi.entities.Emprestimo;
 import tqi.analiseDeCreditoApi.exceptions.EmprestimoNotFoundException;
+import tqi.analiseDeCreditoApi.exceptions.IllegalDateException;
+import tqi.analiseDeCreditoApi.exceptions.IllegalQuotaException;
 import tqi.analiseDeCreditoApi.mapper.EmprestimoMapper;
 import tqi.analiseDeCreditoApi.repository.EmprestimoRepository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,7 +28,8 @@ public class EmprestimoService {
         this.emprestimoRepository = emprestimoRepository;
     }
 
-    public MessageResponseDTO createEmprestimo(CreateEmprestimoDTO createEmprestimoDTO) {
+    public MessageResponseDTO createEmprestimo(CreateEmprestimoDTO createEmprestimoDTO)
+            throws IllegalQuotaException, IllegalDateException {
         Emprestimo savedEmprestimo = getEmprestimo(createEmprestimoDTO);
         return createMessageResponse(savedEmprestimo.getId(), "Created ");
     }
@@ -41,9 +45,11 @@ public class EmprestimoService {
         return allEmprestimos;
     }
 
-    public MessageResponseDTO updateById(Long id, CreateEmprestimoDTO createEmprestimoDTO) throws EmprestimoNotFoundException {
+    public MessageResponseDTO updateById(Long id, CreateEmprestimoDTO createEmprestimoDTO)
+            throws EmprestimoNotFoundException, IllegalQuotaException, IllegalDateException {
         verifyIfExists(id);
-        Emprestimo updatedEmprestimo = getEmprestimo(createEmprestimoDTO);
+        CreateEmprestimoDTO validEmprestimo = emprestimoIsValid(createEmprestimoDTO);
+        Emprestimo updatedEmprestimo = getEmprestimo(validEmprestimo);
         return createMessageResponse(updatedEmprestimo.getId(), "Updated ");
     }
 
@@ -52,8 +58,10 @@ public class EmprestimoService {
         emprestimoRepository.deleteById(id);
     }
 
-    private Emprestimo getEmprestimo(CreateEmprestimoDTO createEmprestimoDTO) {
-        Emprestimo emprestimoToSave = emprestimoMapper.toModel(createEmprestimoDTO);
+    private Emprestimo getEmprestimo(CreateEmprestimoDTO createEmprestimoDTO)
+            throws IllegalQuotaException, IllegalDateException {
+        CreateEmprestimoDTO validEmprestimo = emprestimoIsValid(createEmprestimoDTO);
+        Emprestimo emprestimoToSave = emprestimoMapper.toModel(validEmprestimo);
         return emprestimoRepository.save(emprestimoToSave);
     }
 
@@ -66,6 +74,17 @@ public class EmprestimoService {
     private Emprestimo verifyIfExists(Long id) throws EmprestimoNotFoundException {
         return emprestimoRepository.findById(id)
                 .orElseThrow(() -> new EmprestimoNotFoundException(id));
+    }
+
+    private CreateEmprestimoDTO emprestimoIsValid(CreateEmprestimoDTO createEmprestimoDTO)
+            throws IllegalQuotaException, IllegalDateException {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if(createEmprestimoDTO.getValorDoEmprestimo() > 60) {
+            throw new IllegalQuotaException();
+        } else if(LocalDate.parse(createEmprestimoDTO.getDataDaPrimeiraParcela(), formatter).isAfter(date.plusMonths(3))) {
+            throw new IllegalDateException();
+        } else return createEmprestimoDTO;
     }
 
 }

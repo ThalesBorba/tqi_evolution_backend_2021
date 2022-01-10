@@ -5,9 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tqi.analiseDeCreditoApi.entities.Cliente;
+import tqi.analiseDeCreditoApi.exceptions.IllegalDateException;
+import tqi.analiseDeCreditoApi.exceptions.IllegalQuotaException;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -23,4 +27,5 @@ public class CreateEmprestimoDTO {
     private double valorDoEmprestimo;
     private String dataDaPrimeiraParcela;
     private int quantidadeDeParcelas;
+
 }

@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tqi.analiseDeCreditoApi.exceptions.IllegalDateException;
+import tqi.analiseDeCreditoApi.exceptions.IllegalQuotaException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -32,5 +35,6 @@ public class Emprestimo {
 
     @Column(nullable = false)
     private int quantidadeDeParcelas;
+
 
 }
